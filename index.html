@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+  <title>Envelope Animation</title>
+  <style>
+    /* Baby Pink Theme */
+    body {
+      margin: 0;
+      background: #ffaad4;
+      background: linear-gradient(to bottom, #ff95c8 20%, #ffdaec 70%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #splash {
+  position: absolute;
+  z-index: -1; /* Ensures it's behind the envelope */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  visibility: visible;
+}
+
+    #splash-text {
+      font-family: "Caveat", cursive;
+      font-size: 36px;
+      color: white;
+      text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    #clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      background-color: white;
+      border-radius: 200px;
+      width: 250px;
+      height: 60px;
+      box-shadow: 9px -7px 0 0 #ffe6f1 inset, 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    .cloud:before,
+    .cloud:after {
+      content: '';
+      position: absolute;
+      background-color: white;
+      border-radius: 100px;
+      box-shadow: 10px 3px 0 0 #ffe6f1 inset, 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .cloud:before {
+      width: 120px;
+      height: 120px;
+      top: -75px;
+      left: 25px;
+    }
+
+    .cloud:after {
+      width: 90px;
+      height: 90px;
+      top: -45px;
+      right: 25px;
+    }
+
+    .x1 { top: 10%; left: -10%; transform: scale(1); animation: moveclouds 35s linear infinite; }
+    .x2 { top: 30%; left: 20%; transform: scale(0.8); animation: moveclouds 40s linear infinite; }
+    .x3 { top: 50%; left: -15%; transform: scale(0.6); animation: moveclouds 50s linear infinite; }
+    .x4 { top: 70%; left: 25%; transform: scale(0.9); animation: moveclouds 30s linear infinite; }
+    .x5 { top: 85%; left: -20%; transform: scale(0.5); animation: moveclouds 55s linear infinite; }
+    .x6 { top: 15%; left: 50%; transform: scale(0.7); animation: moveclouds 38s linear infinite; }
+    .x7 { top: 60%; left: 80%; transform: scale(0.4); animation: moveclouds 45s linear infinite; }
+
+    @keyframes moveclouds {
+      0% { transform: translateX(-100%) scale(1); }
+      100% { transform: translateX(100vw) scale(1); }
+    }
+
+    .container {
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      cursor: pointer;
+      width: 450px;
+      height: 300px;
+      z-index: 1;
+    }
+
+    /* Envelope styling */
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f5edd1;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      border-top: 180px solid #ecdeb8;
+      border-right: 225px solid transparent;
+      border-left: 225px solid transparent;
+      transform-origin: top;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .envelope::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 180px solid transparent;
+      border-right: 225px solid #e6cfa7;
+      border-bottom: 130px solid #e6cfa7;
+      border-left: 225px solid #e6cfa7;
+    }
+
+    /* Letter inside the envelope */
+    .letter {
+      position: absolute;
+      
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      background: white;
+      text-align: center;
+      transition: all 0.8s ease-in-out;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 0;
+    }
+
+    .letter.open {
+      opacity: 1;
+      visibility: visible;
+      height: 200px;
+      /* Example effect for opening the letter */
+  transition: transform 0.5s ease-in-out;
+    }
+
+    .letter.full {
+      width: 110%;
+      height: 800px;
+      padding: 50px;
+      max-height: 500px;
+      z-index: 10;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .letter .text {
+      font-family: "Caveat", cursive;
+      color: black;
+      text-align: justify;
+      font-size: 18px;
+      padding: 5px;
+    }
+    /* Heart decoration */
+    .heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      background: #c2465d;
+      transform: translate(-50%, -20%) rotate(45deg);
+      cursor: pointer;
+      z-index: 4;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: #c2465d;
+      border-radius: 50%;
+    }
+
+    .heart:before { top: -7.5px; }
+    .heart:after { right: 7.5px; }
+  </style>
+</head>
+<body>
+  <audio id="background-music" src="song.wav"></audio>
+  <div id="splash">
+    <div id="splash-text">Click to Start</div>
+  </div>
+  <div id="clouds">
+    <div class="cloud x1"></div>
+    <div class="cloud x2"></div>
+    <div class="cloud x3"></div>
+    <div class="cloud x4"></div>
+    <div class="cloud x5"></div>
+    <div class="cloud x6"></div>
+    <div class="cloud x7"></div>
+  </div>
+  <div class="container">
+    <div class="envelope-wrapper">
+      <div class="envelope">
+        <div class="letter">
+          <div class="text">
+            <strong>Dear Akshata,</strong>
+            <p>
+
+              As the New Year begins, I find myself thinking of you even more. You have been the most precious part of my life, a chapter so beautiful that even the hardest days couldn’t erase its meaning. This past year, though it ended differently than I had ever imagined, was still unforgettable because it had you in it.</p>
+              <p> You taught me what love truly feels like. You showed me how to value others and, more importantly, myself. These are lessons I’ll carry for a lifetime, no matter where life takes us. But with every passing day, I miss you more than I can ever express.
+              </p><p>This year feels different without you. I wish I could turn back time to the moments we shared to hold your hand a little tighter, to laugh with you a little longer, and to make the moments count the way I should have. I miss the version of us that felt invincible, the bond that felt like home.
+              
+                Even though we’re apart, I want you to know that I’ll always be here for you. If you ever feel overwhelmed, sad, or lost, just reach out I’ll be there. I don’t need anything in return except to know that you’re okay.</p>
+                <p>Happy New Year, Akshata. You’ll always be in my heart, and this year, I’ll carry you with me in every moment. Thank you for being a part of my story and for teaching me the meaning of true love.</p>
+                          <p class='sincerely'> Your Hemanth 🧸&#x1F493;</p>
+          </div>
+        </div>
+      </div>
+      <div class="heart"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const envelopeWrapper = document.querySelector('.envelope-wrapper');
+      const letter = document.querySelector('.letter');
+      const splash = document.getElementById('splash');
+      const music = document.getElementById('background-music');
+      const container = document.querySelector('.container');
+      const heart = document.querySelector('.heart');
+  
+      let state = 0; // 0: closed, 1: opened, 2: fully expanded
+  
+      if (splash && container && music) {
+        // Hide the splash screen behind the envelope
+        splash.style.zIndex = '-1';
+        
+        // Handle envelope wrapper click
+        if (envelopeWrapper && letter) {
+          envelopeWrapper.addEventListener('click', () => {
+            // Start music and hide splash on first click
+            if (state === 0) {
+              music.play().catch(err => console.error('Audio playback failed:', err));
+              splash.style.display = 'none';
+              container.style.visibility = 'visible';
+              letter.classList.add('open'); // Open the envelope
+              state = 1;
+            } else if (state === 1) {
+              letter.classList.add('full'); // Fully expand the letter
+              state = 2;
+            } else if (state === 2) {
+              letter.classList.remove('open', 'full'); // Reset to closed state
+              state = 0;
+            }
+          });
+        }
+  
+        // Loop background music
+        music.addEventListener('ended', () => {
+          music.currentTime = 0;
+          music.play();
+        });
+      }
+  
+      if (heart && letter) {
+        // Handle double-click on heart
+        heart.addEventListener('dblclick', () => {
+          letter.classList.add('full'); // Fully expand the letter
+          state = 2;
+        });
+      }
+    });
+  </script>
+  
+  
+</body>
+</html>
